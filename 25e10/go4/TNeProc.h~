@@ -1,0 +1,168 @@
+/* -*- mode:c++ c-file-style:"linux" -*- */
+#ifndef TUNPACKPROCESSOR_H
+#define TUNPACKPROCESSOR_H
+#include <TLine.h>
+#include <TGraph.h>
+#include <TGraphErrors.h>
+#include "TGo4EventProcessor.h"
+
+#define NO_ANNUAL 0  // Remove Sectors, Rings
+
+//-----class TNeParam-----;
+extern int otl;
+class TNeEvent;
+class TGo4MbsSubEvent;
+
+class TNeProc : public TGo4EventProcessor
+{
+public:
+	TNeProc() ;
+	TNeProc(const char* name);
+	virtual ~TNeProc() ;
+	//! event processing function
+	Bool_t BuildEvent(TGo4EventElement* target);
+	double GetClasters(unsigned short n, unsigned short *x);
+	static long bit[32];
+
+private:
+	bool mapLYSO(int nl,int nx,int ny);
+	TH1		*fTrigger;
+	TH1		*futime;
+	TH1		*fSubEvents;
+	TH1		*fEventsSizes;
+
+//-----raw-----
+	//TH1		*d1Xa[32];
+	//TH1		*d1Xt[32];
+	//TH1		*d1Xc[32];
+
+	//TH1		*d1Ya[32];
+	//TH1		*d1Yt[32];
+	//TH1		*d1Yc[32];
+
+	//TH1		*d1La[16];
+	//TH1		*d1Lt[16];
+	//TH1		*d1Lc[16];
+
+// #ifndef NO_ANNUAL
+	//TH1		*d1Sa[16];
+	//TH1		*d1St[16];
+	//TH1		*d1Sc[16];
+
+	//TH1		*d1Ra[16];
+	//TH1		*d1Rt[16];
+	//TH1		*d1Rc[16];
+// #endif // NO_ANNUAL
+	TH1		*d1Va[16];
+	TH1		*d1Vt[16];
+	TH1		*d1Vc[16];
+	
+	TH1		*d1Rxa[16];
+	TH1		*d1Rxt[16];
+	TH1		*d1Rxc[16];
+
+	TH1		*d1Rya[16];
+	TH1		*d1Ryt[16];
+	TH1		*d1Ryc[16];
+
+	TH1		*d1R20a[16];
+	TH1		*d1R20t[16];
+	TH1		*d1R20c[16];
+
+	TH1		*d1DSSD_Xa[16];
+	TH1		*d1DSSD_Xt[16];
+	TH1		*d1DSSD_Xc[16];
+	TH1		*d1DSSD_Xmult;
+	TH1		*d1DSSD_Xn;
+	TH1		*d1DSSD_Xdep;
+
+	TH1		*d1DSSD_Ya[16];
+	TH1		*d1DSSD_Yt[16];
+	TH1		*d1DSSD_Yc[16];
+	TH1		*d1DSSD_Ymult;
+	TH1		*d1DSSD_Yn;
+	TH1		*d1DSSD_Ydep;
+
+
+//_____________ 2 dim
+	TH2		*d2edeR20;
+//	TH2		*d2edeCsIraw[16];
+	TH2		*d2xy;
+	TH2     *d2Si;
+
+	//TH2		*d2XL[16]; 
+
+//-----ToF+MWPC-----
+	TH1		*d1F3[4];
+	TH1		*d1tF3[4];
+	TH1		*d1F5[4];
+	TH1		*d1tF5[4];
+	TH1		*d1F6[4];
+	TH1		*d1tF6[4];
+	TH1		*d1tMWPC[4];
+//
+	TH1		*d1ToF;
+	TH1		*d1aF3;
+	TH2		*d2ToFaF3;
+	TH2		*d2ToFaF3_cut;
+	TH1		*d1aF5;
+	TH2		*d2ToFaF5;
+	TH1		*d1aF6;
+	TH2		*d2ToFaF6;
+
+//-----CALIBRATED-----
+//-----WIRES-----
+	TH1		*d1X1;
+	TH1		*d1Y1;
+	TH1		*d1X2;
+	TH1		*d1Y2;
+	TH1		*d1NX1;
+	TH1		*d1NY1;
+	TH1		*d1NX2;
+	TH1		*d1NY2;
+	TH2		*d2XY1;
+	TH2		*d2XY2;
+	TH1		*d1CX1;
+	TH1		*d1CY1;
+	TH1		*d1CX2;
+	TH1		*d1CY2;
+	TH2		*d2XYbeamOnTar;
+	TH2		*d2XYbeamOnDia;
+	TH2		*d2XYbeamOnTarTrg1;
+
+	double mwz1, mwx1, mwy1;
+	double mwz2, mwx2, mwy2;
+	double xbt, ybt, zbt;
+	double xbd, ybd, zbd;
+	double af3, af5, af6, ToF, ToF6;
+
+// CsI telescope
+	TH1* d1LCsIa[16];
+	TH1* d1LCsIt[16];
+	TH1* d1LCsIc[16];
+	TH2* d2LCsiCount; 
+	TH2* d2LCsISi[16];
+// Plastic ND demonstrator
+	TH1* d1digi_1w[16];
+	TH1* d1digi_2w[16];
+	TH2* digi_g_n[16];
+
+//-----neutrons-----
+	TH1* d1neutAmp[48];
+	TH1* d1neutTAC[48];
+	TH1* d1neutTDC[48];
+	TH2* d2Ngamma[48];
+
+//------digi - ADC correlations
+
+	TH2* d2digiADC;
+
+	void MakeHistND();
+	void UnpackND(TGo4MbsSubEvent* se,TNeEvent* ev);
+	void FillHistND(TNeEvent* ev);
+
+
+	ClassDef(TNeProc,1)
+};
+
+#endif //TUNPACKPROCESSOR_H
