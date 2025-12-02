@@ -27,15 +27,6 @@ TNeAnalysis::TNeAnalysis()
 :fMbsEvent(0)
 	,fEvents(0)
 	,fLastEvent(0)
-	,p_Xa(0)
-	,p_Ya(0)
-	,p_La(0)
-	,p_Sa(0)
-	,p_Ra(0)
-	,p_Va(0)
-	,p_R20a(0)
-	,p_Rxa(0)
-	,p_Rya(0)
 {
 }
 //***********************************************************
@@ -46,15 +37,6 @@ TNeAnalysis::TNeAnalysis(int argc, char** argv)
 	,fMbsEvent(0)
 	,fEvents(0)
 	,fLastEvent(0)
-	,p_Xa(0)
-	,p_Ya(0)
-	,p_La(0)
-	,p_Sa(0)
-	,p_Ra(0)
-	,p_Va(0)
-	,p_R20a(0)
-	,p_Rxa(0)
-	,p_Rya(0)
 {
    cout << "**** Create TNeAnalysis name: " << argv[0] << endl;
 
@@ -97,29 +79,6 @@ TNeAnalysis::TNeAnalysis(int argc, char** argv)
    // At this point, autosave file has not yet been read!
    // Therefore parameter values set here will be overwritten
    // if an autosave file is there.
-   p_Xa = new TNeDet16("Xa");
-   p_Ya = new TNeDet16("Ya");
-   p_La = new TNeDet16("La");
-
-   p_Sa = new TNeDet16("Sa");
-   p_Ra = new TNeDet16("Ra");
-   p_Va = new TNeDet16("Va");
-
-   p_R20a = new TNeDet16("R20a");
-   p_Rxa  = new TNeDet16("Rxa");
-   p_Rya  = new TNeDet16("Rya");
-
-   AddParameter(p_Xa);
-   AddParameter(p_Ya);
-   AddParameter(p_La);
-   
-   AddParameter(p_Sa);
-   AddParameter(p_Ra);
-   AddParameter(p_Va);
-
-   AddParameter(p_R20a);
-   AddParameter(p_Rxa);
-   AddParameter(p_Rya);
 
 //   pMTracks = new TNeMParms("MTRACKS");
 //   AddParameter(pMTracks);
@@ -159,17 +118,6 @@ Int_t TNeAnalysis::UserPreLoop()
    }
    fEvents=0; // event counter
    fLastEvent=0; // number of last event processed
-	p_Xa->ReadData();
-	p_Ya->ReadData();
-	p_La->ReadData();
-	
-	p_Sa->ReadData();
-	p_Ra->ReadData();
-	p_Va->ReadData();
-  
-	p_R20a->ReadData();
-	p_Rxa->ReadData();
-	p_Rya->ReadData();
 
    return 0;
 }

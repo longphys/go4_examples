@@ -46,35 +46,30 @@ void TNeProc::MakeHistND()
 {
 	//-----neutrons-----
 	for (int i = 0; i < 48; ++i) {
-		//d1neutAmp[i]   = MakeTH1('I', Form("Neutrons/Amp/Amp_%2.2d",i)
-		//		, Form("Neutrons Amp CH %2.2d",i), 4096, 0., 4095.);
-		d1neutAmp[i] = MakeTH1('I', Form("Neutrons/Amp/Amp_%2.2d",i),
-					 Form("Neutrons Amp CH %2.2d",i),
+		d1neutAmp[i] = MakeTH1('I', Form("scint/Amp/Amp_%2.2d",i),
+					 Form("Amp CH %2.2d",i),
 					 8192, 0., 8191.);
-		d1neutTAC[i] = MakeTH1('I', Form("Neutrons/TAC/TAC_%2.2d",i),
-					 Form("Neutrons TAC CH %2.2d",i),
+		d1neutTAC[i] = MakeTH1('I', Form("scint/TAC/TAC_%2.2d",i),
+					 Form("TAC CH %2.2d",i),
 					 4096, 0., 4095.);
-		d1neutTDC[i] = MakeTH1('I', Form("Neutrons/time/time_%2.2d",i),
-				       Form("Neutrons time CH %2.2d",i),
-				       4999, 0., 5000.);
-		d2Ngamma[i]   = MakeTH2('I', Form("Neutrons/Ng/Ng_%2.2d",i)
+		d1neutTDC[i] = MakeTH1('I', Form("scint/Time/Time_%2.2d",i),
+				       Form("Time CH %2.2d",i),
+				       5000, 0., 4999.);
+		d2Ngamma[i]   = MakeTH2('I', Form("scint/Ng/Ng_%2.2d",i)
 					, Form("N gamma %2.2d",i), 400, 0., 4095., 400, 0., 4095.,"Amp","TAC");
 	}
 //------Digitizer----
-	for ( int i = 0; i < 16; ++i) {
-		d1digi_1w[i] = MakeTH1('I',Form("Digitizer/long/l_digi_%2.2d",i),
-				       Form("Long window CH %2.2d",i), 4096, 0.,4095.);
-		d1digi_2w[i] = MakeTH1('I', Form("Digitizer/short/s_digi_%2.2d",i)
-				       , Form("Short window CH %2.2d",i), 4096, 0., 4095.);
-//		digi_g_n[i]   =  MakeTH2('D', Form("Digitizer/gn/gn_digi_%2.2d",i)
-//				, Form("PSD %2.2d",i), 400, 0., 4095., 400, -100., 100.,"amp","psd");
-		digi_g_n[i]   =  MakeTH2('D', Form("Digitizer/gn/gn_digi_%2.2d",i)
-					 , Form("PSD %2.2d",i), 400, 0., 4095., 400, -1.,1.,"amp","psd");
+	// for ( int i = 0; i < 16; ++i) {
+	// 	d1digi_1w[i] = MakeTH1('I',Form("Digitizer/long/l_digi_%2.2d",i),
+	// 			       Form("Long window CH %2.2d",i), 4096, 0.,4095.);
+	// 	d1digi_2w[i] = MakeTH1('I', Form("Digitizer/short/s_digi_%2.2d",i)
+	// 			       , Form("Short window CH %2.2d",i), 4096, 0., 4095.);
+	// 	digi_g_n[i]   =  MakeTH2('D', Form("Digitizer/gn/gn_digi_%2.2d",i)
+	// 				 , Form("PSD %2.2d",i), 400, 0., 4095., 400, -1.,1.,"amp","psd");
+	// }
 
-	}
-
-	d2digiADC = MakeTH2('I', "2D", "Correlation",
-			    400, 0., 4095., 400, 0., 4095.,"digi","ADC");
+	// d2digiADC = MakeTH2('I', "2D", "Correlation",
+	// 		    400, 0., 4095., 400, 0., 4095.,"digi","ADC");
 	
 }
 void TNeProc::UnpackND(TGo4MbsSubEvent* se,TNeEvent* ev)
@@ -119,7 +114,7 @@ void TNeProc::UnpackND(TGo4MbsSubEvent* se,TNeEvent* ev)
 						ev->neutTAC[chnl/2] = adc;
 					}
 					break;
-				case 9:	// mADC: SQ1_x && SQ1_y
+				case 9:	// Time
 					chnl= (idata[n] >> 16)&0x3f;
 					adc = idata[n] & 0xfff; //only 12 bits
 					ev->neutTDC[chnl] = adc;
@@ -140,7 +135,8 @@ void TNeProc::UnpackND(TGo4MbsSubEvent* se,TNeEvent* ev)
 
 void TNeProc::FillHistND(TNeEvent* ev)
 {
-	for (int n=0; n<16; ++n) {
+	/* Digitizer
+	for (int n=0; n<4; ++n) {
 		if(ev->digi_1w[n] > 0) d1digi_1w[n]->Fill(ev->digi_1w[n]);
 		if(ev->digi_2w[n] > 0) d1digi_2w[n]->Fill(ev->digi_2w[n]);
 		if(ev->digi_1w[n] > 0 && ev->digi_2w[n] > 0) 	{
@@ -149,9 +145,10 @@ void TNeProc::FillHistND(TNeEvent* ev)
 			digi_g_n[n]->Fill(amp, psd);
 		}
 	}
+	*/
 
 //-----neutrons-----
-	for (int n=0; n<48; ++n) {
+	for (int n=0; n<4; ++n) {
 
 		if(ev->neutTDC[n] > 0) {
 			d1neutAmp[n]->Fill(ev->neutAmp[n]);
@@ -161,8 +158,8 @@ void TNeProc::FillHistND(TNeEvent* ev)
 		}
 	}
 //-----correlations-----
-	if(ev->digi_1w[0] > 0 && ev->NneutAmp[0] > 0)
-		d2digiADC->Fill(ev->digi_1w[0],ev->NneutAmp[0]);
+	// if(ev->digi_1w[0] > 0 && ev->NneutAmp[0] > 0)
+	// 	d2digiADC->Fill(ev->digi_1w[0],ev->NneutAmp[0]);
 
 }
 
@@ -184,8 +181,8 @@ TNeProc::~TNeProc()
 TNeProc::TNeProc(const char* name) : TGo4EventProcessor(name)
 {
 	TGo4Log::Info("**** TNeProc: Create instance %s", name);
-	fTrigger = MakeTH1('I', "Trigger","Values of trigger",16, 0., 16.);
-	futime    = MakeTH1('I', "utime",    "mashine time (usec)",   65535, 0, 65534);
+	fTrigger = MakeTH1('I', "Trigger","Values of trigger",16, 0., 15.);
+	futime    = MakeTH1('I', "utime",    "mashine time (usec)",   65536, 0, 65535);
 	fSubEvents  = MakeTH1('I', "SubEvents",  "Number of subevents", 16, 0, 15);
 	fEventsSizes = MakeTH1('I', "EventSizes", "Size of each event", 1024, 0, 1023);
 
@@ -447,7 +444,6 @@ Bool_t TNeProc::BuildEvent(TGo4EventElement* target)
 	NeEvent->trigger	= fInput->GetTrigger();
 	NeEvent->subevents	= num;
 	NeEvent->evsize		= sz;
-
 
 	fTrigger->Fill(NeEvent->trigger);
 

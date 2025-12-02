@@ -29,18 +29,6 @@ public:
 	virtual Int_t UserEventFunc();
 	virtual Int_t UserPostLoop();
 
-	TNeDet16* p_Xa;
-	TNeDet16* p_Ya;
-	TNeDet16* p_La;
-	
-	TNeDet16* p_Sa;
-	TNeDet16* p_Ra;
-	TNeDet16* p_Va;
-
-	TNeDet16* p_R20a;	
-	TNeDet16* p_Rxa;
-	TNeDet16* p_Rya;
-
 //	TNeMParms* pMTracks;	
 	ClassDef(TNeAnalysis,1)
 };

@@ -30,19 +30,19 @@ private:
 	TH1		*fEventsSizes;
 
 // Plastic ND demonstrator
-	TH1* d1digi_1w[16];
-	TH1* d1digi_2w[16];
-	TH2* digi_g_n[16];
+	// TH1* d1digi_1w[16];
+	// TH1* d1digi_2w[16];
+	// TH2* digi_g_n[16];
 
 //-----neutrons-----
-	TH1* d1neutAmp[48];
-	TH1* d1neutTAC[48];
-	TH1* d1neutTDC[48];
-	TH2* d2Ngamma[48];
+	TH1* d1neutAmp[4];
+	TH1* d1neutTAC[4];
+	TH1* d1neutTDC[4];
+	TH2* d2Ngamma[4];
 
 //------digi - ADC correlations
 
-	TH2* d2digiADC;
+	// TH2* d2digiADC;
 
 	void MakeHistND();
 	void UnpackND(TGo4MbsSubEvent* se,TNeEvent* ev);
