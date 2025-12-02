@@ -1,8 +1,0 @@
-set dispatcher rio3-2
-@./start_vme_0.scom
-set dispatcher rio4-2
-@./start_vme_1.scom
-x "sleep 10"
-set dispatcher lipc-1
-@./start_eb.scom
-rio3-2::sta ac

@@ -1,4 +1,0 @@
-stop task m_ds       -kill
-stop task m_read_meb -kill
-stop task m_util     -kill
-stop task m_esone_serv -kill

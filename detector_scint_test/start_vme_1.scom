@@ -1,0 +1,8 @@
+sta ta m_util
+load setup ./vme_1/setup.usf
+load mo_setup ./set_mo.usf
+set trig_mod -slave
+enable irq
+sta ta m_read_meb ./vme_1/m_read_meb
+sta ta m_esone_serv
+sta ta m_ds

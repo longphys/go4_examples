@@ -1,8 +1,0 @@
-sta ta m_util
-load mo_setup ./set_mo.usf
-sta ta m_dr
-sta ta m_transport
-sta ta m_stream_serv
-set str 1
-sta ta m_daq_rate
-ena tcp
