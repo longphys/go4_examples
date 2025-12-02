@@ -786,7 +786,7 @@ nullptr
 "/home/long/go4/go4-6.4.0/include",
 "/home/long/go4/go4-6.4.0",
 "/home/long/root/root-source/pre-compiled/root/include/",
-"/home/long/go4/25e10/go4/",
+"/home/long/go4/go4_examples/25e10/go4/",
 nullptr
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(

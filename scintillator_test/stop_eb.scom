@@ -1,0 +1,5 @@
+stop task m_daq_rate    -kill
+stop task m_stream_serv -kill
+stop task m_transport   -kill
+stop task m_dr          -kill
+stop task m_util        -kill

@@ -1,0 +1,11 @@
+rio3-2::sto ac
+x "sleep 2"
+set dispatcher lipc-1
+@./stop_eb
+set dispatcher rio3-2
+@./stop_vme_0.scom
+set dispatcher rio4-2
+@./stop_vme_1.scom
+set dispatcher rio4-1
+@./stop_vme_2.scom
+set dispatcher lipc-1
